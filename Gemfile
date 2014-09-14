@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.11'
 
-gem 'mysql2', '~> 0.3.1'
 gem 'twitter'
 gem 'omniauth-twitter'
 
@@ -20,11 +19,12 @@ end
 
 group :development, :test do
   gem 'pry-debugger'
+  gem 'mysql2', '~> 0.3.1'
 end
-# group :production do
-#   gem 'pg'
-#   gem 'thin'
-# end
+group :production do
+  gem 'pg'
+  gem 'thin'
+end
 
 gem 'jquery-rails'
 
