@@ -18,6 +18,14 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+group :development, :test do
+  gem 'pry-debugger'
+end
+# group :production do
+#   gem 'pg'
+#   gem 'thin'
+# end
+
 gem 'jquery-rails'
 
-gem 'pry-debugger'
+
