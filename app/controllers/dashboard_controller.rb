@@ -28,7 +28,6 @@ class DashboardController < ApplicationController
   
   def say_hi
     current_user.twitter_client.update("Hi @#{params[:screen_name]} how are you today?")
-    binding.pry
     dismiss_and_redirect(params[:id])
   end
 
