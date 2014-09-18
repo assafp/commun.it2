@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessible :name, :uid, :token, :secret
+  attr_accessible :name, :uid, :token, :secret, :last_mention_id
 
   has_many :follows
 
@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   end
 
   def update_follows
+    update_mentions
     possible_unfollower_ids = follows.where(unfollowed_on: nil).map(&:follower_uid).to_set
     latest_follow = follows.order('follow_index DESC').first
     current_follow_index = latest_follow ? latest_follow.follow_index : 0
@@ -33,17 +34,35 @@ class User < ActiveRecord::Base
       count = (follows.count / 10.0).ceil # On his first login we’ll assume that the last 10% of the followers that Twitter returned to us are new
       ids = follows.where(unfollowed_on: nil).order('follow_index DESC').limit([3,count].min).map(&:follower_uid)
     else
-      ids = follows.where(unfollowed_on: nil).order('follow_index DESC').limit(3).map(&:follower_uid)
+      ids = follows.where(unfollowed_on: nil).where(dismissed_on: nil).order('follow_index DESC').limit(3).map(&:follower_uid)
     end
     twitter_client.users(ids) || []
   end
 
   def new_unfollowers
-    ids = follows.where('unfollowed_on IS NOT NULL').order('unfollowed_on DESC').limit(3).map(&:follower_uid)
+    ids = follows.where('unfollowed_on IS NOT NULL').where(dismissed_on: nil).order('unfollowed_on DESC').limit(3).map(&:follower_uid)
     twitter_client.users(ids) || []
   end
 
+  def mentions(ids)
+    follows.where(follower_uid: ids).where('mention_on IS NOT NULL').map(&:id).to_set
+  end
+
   private
+
+  def update_mentions
+    binding.pry
+    options = {count: 1000, trim_user: 1}
+    options[:since_id] = last_mention_id if last_mention_id
+    now = Time.now
+    twitter_client.mentions(options).each_with_index do |mention, i|
+      if i == 0
+        last_mention_id = mention.id
+        save
+      end
+      Follow.update_all({mention_on: now}, {user_id: id, follower_uid: mention.user.id, mention_on: nil})
+    end
+  end
 
   def create_twitter_client
     Twitter::REST::Client.new do |config|

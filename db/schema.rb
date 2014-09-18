@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140917165224) do
+ActiveRecord::Schema.define(:version => 20140918022739) do
 
   create_table "follows", :force => true do |t|
     t.integer  "user_id"
@@ -19,15 +19,17 @@ ActiveRecord::Schema.define(:version => 20140917165224) do
     t.datetime "unfollowed_on"
     t.integer  "follow_index"
     t.datetime "dismissed_on"
+    t.datetime "mention_on"
   end
 
   create_table "users", :force => true do |t|
     t.string   "uid"
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.string   "token"
     t.string   "secret"
+    t.integer  "last_mention_id"
   end
 
 end
