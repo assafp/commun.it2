@@ -6,6 +6,6 @@ class ApplicationController < ActionController::Base
   private
 
   def current_user
-    @current_user ||= User.find(cookies[:user_id]) if cookies[:user_id] and !cookies[:user_id].empty?
+    @current_user ||= (User.find_by_id(cookies[:user_id]) if (cookies[:user_id] && !cookies[:user_id].empty?)) 
   end
 end

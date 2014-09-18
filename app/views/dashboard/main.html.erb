@@ -1,1 +1,17 @@
-dashboard stuff
+<% if current_user %>
+  <% [['New Followers', @new_followers], ['New Unfollowers', @new_unfollowers]].each do |title, members| %>
+    <h3><%= title %></h3>
+    <ul>
+      <% if members.any? %>
+        <% members.each do |member| %>
+          <li>
+            <%= member.attrs[:name] %>
+          </li>
+        <% end %>
+      <% else %>
+          <p>Sorry, there's no one to show here yet.</p>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
+
