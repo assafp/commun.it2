@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
   def new_followers(first_login)
     if first_login
       count = (follows.count / 10.0).ceil # On his first login we’ll assume that the last 10% of the followers that Twitter returned to us are new
-      ids = follows.where(unfollowed_on: nil).order('follow_index DESC').limit([3,count].min).map(&:follower_uid)
+      ids = follows.where(unfollowed_on: nil).where(dismissed_on: nil).order('follow_index DESC').limit([3,count].min).map(&:follower_uid)
     else
       ids = follows.where(unfollowed_on: nil).where(dismissed_on: nil).order('follow_index DESC').limit(3).map(&:follower_uid)
     end
@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
   end
 
   def mentions(ids)
-    follows.where(follower_uid: ids).where('mention_on IS NOT NULL').map(&:id).to_set
+    follows.where(follower_uid: ids).where('mention_on IS NOT NULL').map(&:follower_uid).to_set
   end
 
   private

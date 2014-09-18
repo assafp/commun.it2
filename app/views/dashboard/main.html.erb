@@ -37,7 +37,7 @@
             <% else %>
               <%= link_to "Follow", conroller: :dashboard, action: :follow, id: member.attrs[:id] %>
             <% end %>
-            <%= link_to "Say Hi", conroller: :dashboard, action: :say_hi, screen_name: member.attrs[:screen_name] %>
+            <%= link_to "Say Hi", conroller: :dashboard, action: :say_hi, screen_name: member.attrs[:screen_name], id: member.attrs[:id] %>
             <%= link_to "X", conroller: :dashboard, action: :dismiss, id: member.attrs[:id] %>
           </li>
         <% end %>

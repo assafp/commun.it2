@@ -17,17 +17,18 @@ class DashboardController < ApplicationController
   end
 
   def follow
-    current_user.twitter_client.follow(params[:id])
+    current_user.twitter_client.follow(params[:id].to_i)
     dismiss_and_redirect(params[:id])
   end
   
   def unfollow
-    current_user.twitter_client.unfollow(params[:id])
+    current_user.twitter_client.unfollow(params[:id].to_i)
     dismiss_and_redirect(params[:id])
   end
   
   def say_hi
     current_user.twitter_client.update("Hi @#{params[:screen_name]} how are you today?")
+    binding.pry
     dismiss_and_redirect(params[:id])
   end
 
