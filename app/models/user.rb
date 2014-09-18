@@ -29,18 +29,29 @@ class User < ActiveRecord::Base
     Follow.update_all({unfollowed_on: Time.now}, {user_id: id, follower_uid: possible_unfollower_ids.to_a})
   end
 
-  def new_followers(first_login)
+  def new_followers(count, first_login, offset = 0)
+    conditions = {unfollowed_on: nil, dismissed_on: nil}
     if first_login
-      count = (follows.count / 10.0).ceil # On his first login we’ll assume that the last 10% of the followers that Twitter returned to us are new
-      ids = follows.where(unfollowed_on: nil).where(dismissed_on: nil).order('follow_index DESC').limit([3,count].min).map(&:follower_uid)
+      count_new = (follows.count / 10.0).ceil # On his first login we’ll assume that the last 10% of the followers that Twitter returned to us are new
+      ids = follows.where(conditions).
+                    order('follow_index DESC').
+                    offset(offset).
+                    limit([count,count_new].min).map(&:follower_uid)
     else
-      ids = follows.where(unfollowed_on: nil).where(dismissed_on: nil).order('follow_index DESC').limit(3).map(&:follower_uid)
+      ids = follows.where(conditions).
+                    order('follow_index DESC').
+                    offset(offset).
+                    limit(count).map(&:follower_uid)
     end
     twitter_client.users(ids) || []
   end
 
-  def new_unfollowers
-    ids = follows.where('unfollowed_on IS NOT NULL').where(dismissed_on: nil).order('unfollowed_on DESC').limit(3).map(&:follower_uid)
+  def new_unfollowers(count, offset = 0)
+    ids = follows.where('unfollowed_on IS NOT NULL').
+                  where(dismissed_on: nil).
+                  order('unfollowed_on DESC').
+                  offset(offset).
+                  limit(3).map(&:follower_uid)
     twitter_client.users(ids) || []
   end
 

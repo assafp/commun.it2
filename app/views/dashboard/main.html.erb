@@ -4,42 +4,7 @@
     <ul>
       <% if members.any? %>
         <% members.each do |member| %>
-          <li>
-
-            <img src="<%= member.attrs[:profile_image_url] %>" />
-            &nbsp;
-            
-            <%= member.attrs[:name] %>
-            &nbsp;
-            
-            <a href="http://twitter.com/<%= member.attrs[:screen_name] %>">@<%= member.attrs[:screen_name] %></a>
-            &nbsp;
-            
-            <% if member.attrs[:followers_count] > 100 %>
-              [Influencer]
-              &nbsp;
-            <% end %>
-           
-            <% if @mentioners_ids.member?(member.attrs[:id]) %>
-              [Engaged]
-              &nbsp;
-            <% end %>
-            
-            
-            <% if title == 'New Unfollowers' %>
-              <b>Not </b>
-            <% end %>
-            Following you
-            &nbsp;
-            <%= "#{member.attrs[:followers_count]} Follower#{member.attrs[:followers_count] != 1 ? 's' : ''}" %>  
-            <% if member.attrs[:following] %>
-              <%= link_to "Unfollow", conroller: :dashboard, action: :unfollow, id: member.attrs[:id] %>
-            <% else %>
-              <%= link_to "Follow", conroller: :dashboard, action: :follow, id: member.attrs[:id] %>
-            <% end %>
-            <%= link_to "Say Hi", conroller: :dashboard, action: :say_hi, screen_name: member.attrs[:screen_name], id: member.attrs[:id] %>
-            <%= link_to "X", conroller: :dashboard, action: :dismiss, id: member.attrs[:id] %>
-          </li>
+          <%= render partial: 'member', locals: {unfollower: title == 'New Unfollowers', member: member, engaged: @mentioners_ids.member?(member.attrs[:id]) } %>
         <% end %>
       <% else %>
           <p>Sorry, there's no one to show here yet.</p>
