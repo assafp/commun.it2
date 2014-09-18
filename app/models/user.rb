@@ -51,7 +51,6 @@ class User < ActiveRecord::Base
   private
 
   def update_mentions
-    binding.pry
     options = {count: 1000, trim_user: 1}
     options[:since_id] = last_mention_id if last_mention_id
     now = Time.now
