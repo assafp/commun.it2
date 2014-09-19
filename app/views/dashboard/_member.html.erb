@@ -1,37 +1,45 @@
 <% if member %>
-  <li class="member" data-id="<%= member.attrs[:id]%>" data-type="<%= 'un' if unfollower %>follower" data-screen-name="<%= member.attrs[:screen_name]%>">
-    <img src="<%= member.attrs[:profile_image_url] %>" />
-    &nbsp;
-    
-    <%= member.attrs[:name] %>
-    &nbsp;
-    
-    <a href="http://twitter.com/<%= member.attrs[:screen_name] %>">@<%= member.attrs[:screen_name] %></a>
-    &nbsp;
-    
-    <% if member.attrs[:followers_count] > 100 %>
-      [Influencer]
-      &nbsp;
-    <% end %>
-   
-    <% if engaged %>
-      [Engaged]
-      &nbsp;
-    <% end %>
-    
-    
-    <% if unfollower %>
-      <b>Not </b>
-    <% end %>
-    Following you
-    &nbsp;
-    <%= "#{member.attrs[:followers_count]} Follower#{member.attrs[:followers_count] != 1 ? 's' : ''}" %>  
-    <% if member.attrs[:following] %>
-      <div class="dismiss_button" data-method='unfollow'>Unfollow</div>
-    <% else %>
-      <div class="dismiss_button" data-method='follow'>Follow</div>
-    <% end %>
-    <div class="dismiss_button" data-method='say_hi'>Say Hi</div>
-    <div class="dismiss_button" data-method='dismiss'>X</div>
-  </li>
+  <div class="member" data-id="<%= member.attrs[:id]%>" data-type="<%= 'un' if unfollower %>follower" data-screen-name="<%= member.attrs[:screen_name]%>">
+    <div class="avatar">
+      <img src="<%= member.attrs[:profile_image_url] %>" />
+    </div>
+    <div class="details">
+      
+      <div class="names">
+        <%= member.attrs[:name] %>
+        &nbsp;
+        <a href="http://twitter.com/<%= member.attrs[:screen_name] %>">@<%= member.attrs[:screen_name] %></a>
+      </div>
+      
+      <div class="tags">
+        <% if member.attrs[:followers_count] > 100 %>
+          [Influencer]
+          &nbsp;
+        <% end %>
+        <% if engaged %>
+          [Engaged]
+          &nbsp;
+        <% end %>
+        
+        <% if unfollower %>
+          <b>Not </b>
+        <% end %>
+        Following you
+      </div>
+
+      <div class="followers">
+        <%= "#{member.attrs[:followers_count]} Follower#{member.attrs[:followers_count] != 1 ? 's' : ''}" %>  
+      </div>
+      <div class="actions">
+      <% if member.attrs[:following] %>
+        <div class="dismiss_button" data-method='unfollow'>Unfollow</div>
+      <% else %>
+        <div class="dismiss_button" data-method='follow'>Follow</div>
+      <% end %>
+      <div class="dismiss_button" data-method='say_hi'>Say Hi</div>
+    </div>
+    </div>
+
+      <div class="dismiss_button dismiss" data-method='dismiss'>X</div>
+  </div>
 <% end %>

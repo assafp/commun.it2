@@ -2,20 +2,23 @@
 <html>
 <head>
   <title>CommunIt2</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag "application", :media => "all" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <h1>Commun.it2</h1>
-  <div>
-    <% if current_user %>
-      Hi, <%= current_user.name %>
-      <%= link_to 'Sign Out', signout_path %>
-    <% else %>
-      <%= link_to 'Sign In', "/auth/twitter" %>
-    <% end %>
+  <div class="header">
+    <div class="logo">
+    </div>
+    <div class="login_status">
+      <% if current_user %>
+        Hi, <%= current_user.name %>
+        <%= link_to 'Sign Out', signout_path %>
+      <% else %>
+        <%= link_to 'Sign In', "/auth/twitter" %>
+      <% end %>
+    </div>
   </div>
-<%= yield %>
+  <%= yield %>
   <%= javascript_include_tag "//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" %>
   <%= javascript_include_tag "application" %>
 </body>

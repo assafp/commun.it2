@@ -33,16 +33,6 @@ class DashboardController < ApplicationController
       current_user.twitter_client.update("Hi @#{params[:'screenName']} how are you today?")
     }
   end
-  
-  # def unfollow
-  #   current_user.twitter_client.unfollow(params[:id].to_i)
-  #   dismiss_and_redirect(params[:id])
-  # end
-  
-  # def say_hi
-  #   current_user.twitter_client.update("Hi @#{params[:screen_name]} how are you today?")
-  #   dismiss_and_redirect(params[:id])
-  # end
 
   private
 

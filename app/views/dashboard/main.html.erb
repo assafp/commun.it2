@@ -1,15 +1,19 @@
 <% if current_user %>
-  <% [['New Followers', @new_followers], ['New Unfollowers', @new_unfollowers]].each do |title, members| %>
-    <h3><%= title %></h3>
-    <ul>
-      <% if members.any? %>
-        <% members.each do |member| %>
-          <%= render partial: 'member', locals: {unfollower: title == 'New Unfollowers', member: member, engaged: @mentioners_ids.member?(member.attrs[:id]) } %>
+  <div class="content">
+    <% [['New Followers', @new_followers], ['New Unfollowers', @new_unfollowers]].each do |title, members| %>
+      <div class="widget">
+        <div class="widget_title">
+          <%= title %>
+        </div>
+        <% if members.any? %>
+          <% members.each do |member| %>
+            <%= render partial: 'member', locals: {unfollower: title == 'New Unfollowers', member: member, engaged: @mentioners_ids.member?(member.attrs[:id]) } %>
+          <% end %>
+        <% else %>
+            <p>Sorry, there's no one to show here yet.</p>
         <% end %>
-      <% else %>
-          <p>Sorry, there's no one to show here yet.</p>
-      <% end %>
-    </ul>
-  <% end %>
+      </div>
+    <% end %>
+  </div>
 <% end %>
 

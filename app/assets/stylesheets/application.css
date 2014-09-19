@@ -1,13 +1,42 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the top of the
- * compiled file, but it's generally better to create a new file per style scope.
- *
- *= require_self
- *= require_tree .
- */
+body {
+  margin: 0px;
+  font-family: Helvetica;
+}
+
+.header {
+  padding: 0px 10px 0px 13px;
+  background: #47b0e9;
+  height: 44px;
+}
+
+.logo {
+  float: left;
+  background: url(http://commun.it/images/sprite.png?v=33) no-repeat -198px -31px;
+  width: 129px;
+  height: 26px;
+  overflow: hidden;
+  text-indent: -9999px;
+  margin: 8px 90px 0 0;
+}
+
+.content {
+  margin-left: 300px;
+}
+
+.widget {
+  display: inline-block;
+  width: 400px;
+}
+
+.login_status {
+  float: right;
+  margin-top: 12px;
+}
+
+.avatar, .details, .dismiss {
+  display: inline-block;
+}
+
+.dismiss_button {
+  display: inline-block;
+}
